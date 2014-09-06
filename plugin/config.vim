@@ -13,7 +13,8 @@ if has('syntax') && !exists('g:syntax_on')
 	set background=dark
 endif
 
-autocmd BufWritePre *.go Fmt
+" Automatically run gofmt when saving go files
+au FileType go au BufWritePre <buffer> Fmt
 
 set encoding=utf8
 set ffs=unix,dos,mac
