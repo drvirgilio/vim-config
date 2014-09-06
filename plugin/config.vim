@@ -13,6 +13,8 @@ if has('syntax') && !exists('g:syntax_on')
 	set background=dark
 endif
 
+autocmd BufWritePre *.go Fmt
+
 set encoding=utf8
 set ffs=unix,dos,mac
 
@@ -44,16 +46,18 @@ set hlsearch
 
 " <C-L> clears search highlighting
 if maparg('<C-L>', 'n') ==# ''
-	nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
+	nnoremap <silent> <C-i> :nohlsearch<CR>
 endif
 
 " replace ; with :
 nnoremap ; :
 
+" don't put deleted characters on clipboard
+noremap  x "_x
+
 " line numbers
 set number
 set linebreak
-set showbreak=~~
 
 "set laststatus=2
 set ruler
@@ -71,7 +75,14 @@ set lazyredraw
 
 " highlight extra whitespace
 highlight ExtraWhiteSpace ctermbg=darkred guibg=darkred
-match ExtraWhiteSpace /\s\+\%#\@<!$\|[^\t]\zs\t\+/
+match ExtraWhiteSpace /\s\+\%#\@<!$\| \+\ze\t/
+" match ExtraWhiteSpace /\s\+$\| \+\ze\t/
+" au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$\| \+\ze\t/
+" au InsertLeave * match ExtraWhitespace /\s\+$\| \+\ze\t/
+autocmd InsertLeave * redraw!
+set listchars=tab:»\ ,precedes:═,extends:═
+set list
+"set showbreak=……
 
 " useful for tabs
 map <leader>tn :tabnew<cr>
@@ -96,9 +107,4 @@ nmap <silent> <C-l> :wincmd l<CR>
 
 set showcmd
 
-" auto make braces
-inoremap {      {}<Left>
-inoremap {<CR>  {<CR>}<Esc>O
-inoremap {{     {
-inoremap {}     {}
 
