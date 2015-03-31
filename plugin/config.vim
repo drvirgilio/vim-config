@@ -108,4 +108,6 @@ nmap <silent> <C-l> :wincmd l<CR>
 
 set showcmd
 
-
+" put gray highlight at column 81
+set colorcolumn=81
+highlight ColorColumn ctermbg=DarkGray guibg=LightGray
